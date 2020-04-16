@@ -1,0 +1,79 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:core="sap.ui.core" displayBlock="true" controllerName="covid.19.controller.Main">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}" titleAlignment="Center">
+					<content>
+						<HeaderContainer height="17%" width="100%">
+							<TileContent footer="Cases Worldwide" footerColor="Neutral">
+								<NumericContent width="160px" value="{path: 'covidAll>/cases', formatter: '.formatter.groupNumber'}" valueColor="Neutral"
+									truncateValueTo="10" formatterValue="true"></NumericContent>
+							</TileContent>
+							<TileContent footer="Recovered Worldwide" footerColor="Good">
+								<NumericContent value="{path: 'covidAll>/recovered', formatter: '.formatter.groupNumber'}" valueColor="Good" truncateValueTo="10"></NumericContent>
+							</TileContent>
+							<TileContent footer="Deaths Worldwide" footerColor="Error">
+								<NumericContent value="{path: 'covidAll>/deaths', formatter: '.formatter.groupNumber'}" valueColor="Error" truncateValueTo="10"></NumericContent>
+							</TileContent>
+							<TileContent footer="Affected Countries" footerColor="Critical">
+								<NumericContent value="{path: 'covidAll>/affectedCountries', formatter: '.formatter.groupNumber'}" valueColor="Critical"
+									truncateValueTo="10"></NumericContent>
+							</TileContent>
+						</HeaderContainer>
+						<ScrollContainer vertical="true" height="85%">
+							<Table id="idTable" items="{path: 'covid>/', sorter: { path: 'cases', descending: 'true'}}" busy="{busy>/busy}"
+								sticky="ColumnHeaders,HeaderToolbar" popinLayout="Block">
+								<headerToolbar>
+									<Toolbar>
+										<content>
+											<SearchField placeholder="eg: india" liveChange="onSearch"></SearchField>
+											<ToolbarSpacer/>
+										</content>
+									</Toolbar>
+								</headerToolbar>
+								<columns>
+									<Column demandPopin="true">
+										<Text text="Country"/>
+									</Column>
+									<Column demandPopin="true">
+										<Text text="Total Cases"/>
+									</Column>
+									<Column demandPopin="true" minScreenWidth="400px">
+										<Text text="Today's Cases"/>
+									</Column>
+									<Column demandPopin="true" minScreenWidth="400px">
+										<Text text="Recovered"/>
+									</Column>
+									<Column demandPopin="true" minScreenWidth="400px">
+										<Text text="Today's Deaths"/>
+									</Column>
+									<Column demandPopin="true" minScreenWidth="400px">
+										<Text text="Total Deaths"/>
+									</Column>
+								</columns>
+								<items>
+									<ColumnListItem>
+										<cells>
+											<FlexBox alignItems="Start" justifyContent="Start">
+												<items>
+													<Image class="sapUiSmallMarginEnd" src="{covid>countryInfo/flag}" width="50px" height="32px"></Image>
+													<ObjectIdentifier title="{covid>country}"/>
+												</items>
+											</FlexBox>
+											<ObjectNumber number="{path: 'covid>cases', type: 'sap.ui.model.type.Integer', formatOptions:{groupingEnabled: 'true'}}"/>
+											<ObjectNumber number="{path: 'covid>todayCases', type: 'sap.ui.model.type.Integer', formatOptions:{groupingEnabled: 'true'}}"
+												state="Warning"/>
+											<ObjectNumber number="{path: 'covid>recovered', type: 'sap.ui.model.type.Integer', formatOptions:{groupingEnabled: 'true'}}" state="Success"/>
+											<ObjectNumber number="{path: 'covid>todayDeaths', type: 'sap.ui.model.type.Integer', formatOptions:{groupingEnabled: 'true'}}" state="Error"/>
+											<ObjectNumber number="{path: 'covid>deaths', type: 'sap.ui.model.type.Integer', formatOptions:{groupingEnabled: 'true'}}" state="Error"/>
+										</cells>
+									</ColumnListItem>
+								</items>
+							</Table>
+						</ScrollContainer>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
